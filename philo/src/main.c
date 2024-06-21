@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:37:55 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/20 12:46:37 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:10:10 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,50 +26,77 @@ static void	is_valid_arguments(const int nb_args, const char **args)
 	}
 }
 
-static void	init_input_data(t_philo *philo, const char **av)
+static void	init_input_data(t_data *data, const char **av)
 {
-	if (!philo || !av)
+	if (!data || !av)
 		return ;
-	philo->nb_threads = ft_atoi(av[1]);
-	philo->t_die = ft_atoi(av[2]);
-	philo->t_eat = ft_atoi(av[3]);
-	philo->t_sleep = ft_atoi(av[4]);
+	data->flag_death = FALSE;
+	if (pthread_mutex_init(&data->mutex_print, NULL) != 0)
+		error_exit("pthread_mutex_init failed");
+	data->nb_threads = ft_atoi(av[1]);
+	data->t_die = ft_atoi(av[2]);
+	data->t_eat = ft_atoi(av[3]);
+	data->t_sleep = ft_atoi(av[4]);
 	if (av[5] != NULL)
-		philo->nb_lunchs = ft_atoi(av[5]);
+		data->nb_lunchs = ft_atoi(av[5]);
+	else
+		data->nb_lunchs = -1;
+	if (data->t_die < 60 || data->t_eat < 60 || data->t_sleep < 60)
+		error_exit("time must be greater than 60ms");
 }
 
-static void	create_threads(t_philo *philo)
+static void	create_threads(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	philo->threads = malloc(sizeof(p_threads) * philo->nb_threads);
-	if (!philo->threads)
+	data->threads = malloc(sizeof(p_threads) * data->nb_threads);
+	if (!data->threads)
 		error_exit("malloc failed");
-	while (i < philo->nb_threads)
+	while (i < data->nb_threads)
 	{
-		philo->threads[i].id = i;
-		if (pthread_create(&philo->threads[i].thread, NULL, &routine, &philo->threads[i]) != 0)
+		data->threads[i].id = i;
+		data->threads[i].state = THINKING;
+		data->threads[i].data = data;
+		if (pthread_create(&data->threads[i].thread,
+				NULL, &routine, &data->threads[i]) != 0)
 			error_exit("pthread_create failed");
+		usleep(1);
+		i++;
+	}
+}
+
+static void	create_mutex(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->mutex = malloc(sizeof(pthread_mutex_t) * data->nb_threads);
+	while (i < data->nb_threads)
+	{
+		if (pthread_mutex_init(&data->mutex[i], NULL) != 0)
+			error_exit("pthread_mutex_init failed");
 		i++;
 	}
 }
 
 int	main(int ac, char **av)
 {
-	t_philo	*philo;
+	t_data	*data;
 
-	philo = malloc(sizeof(t_philo));
+	data = malloc(sizeof(t_data));
 	is_valid_arguments((const int)ac, (const char **)av);
-	init_input_data(philo, (const char **)av);
-	create_threads(philo);
-	while (philo->flag_death == FALSE)
+	init_input_data(data, (const char **)av);
+	create_mutex(data);
+	create_threads(data);
+	print_mutex_each_philo(data);
+	while (data->flag_death == FALSE)
 	{
 		usleep(1000);
 		break ;
 	}
-	join_threads(philo);
-	//destroy_threads(philo);
-	free_philo(philo);
+	join_threads(data);
+	free_mutex(data);
+	free_data(data);
 	return (0);
 }

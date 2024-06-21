@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   data.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 18:11:58 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/20 12:45:33 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/21 13:09:52 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,38 @@
 #include <sys/time.h>
 #include <pthread.h>
 
+struct s_data;
+struct s_threads;
+
+typedef enum
+{
+	THINKING,
+	SLEEPING,
+	EATING
+} t_state;
+
 typedef struct s_threads
 {
 	int					id;
+	t_state				state;
 	pthread_t			thread;
-	//pthread_mutex_t*	left_chopstick;
-	//pthread_mutex_t*	right_chopstick;
+	struct s_data		*data;
 }	p_threads;
 
-typedef struct s_philo
+typedef struct s_data
 {
-	p_threads	*threads;
-	int			nb_threads;
-	int			t_die;
-	int			t_eat;
-	int			t_sleep;
-	int			nb_lunchs;
-	int			flag_death;
-}	t_philo;
+	p_threads		*threads;
+	pthread_mutex_t	*mutex;
+	pthread_mutex_t	mutex_print;
+	int				nb_threads;
+	int				t_die;
+	int				t_eat;
+	int				t_sleep;
+	int				nb_lunchs;
+	int				flag_death;
+}	t_data;
 
-#define EAT 1
-#define SLEEP 2
-#define THINK 3
+
 
 #define TRUE 1
 #define FALSE 0
@@ -53,15 +63,29 @@ typedef struct s_philo
 #define CYAN	"\033[0;36m"
 #define WHITE	"\033[0;37m"
 
+//TEMPORARY PRINTS --------------- NO NORM
+void	print_mutex_each_philo(t_data *data);
+
 //UTILS
 int		is_numbers(const int nb_args, const char **args);
 int		ft_atoi(const char* str);
 void	error_exit(const char *msg);
+void	ms_to_us_sleep(unsigned int ms);
 
 //THREADS UTILS
-void	join_threads(t_philo *philo);
-void	destroy_threads(t_philo *philo);
-void	free_philo(t_philo *philo);
+void	join_threads(t_data *data);
+void	destroy_threads(t_data *data);
+void	free_data(t_data *data);
+void	free_mutex(t_data *data);
+
+//STATES_and_ACTIONS
+void	philo_think(t_data *data, p_threads *thread);
+void	philo_sleep(t_data *data, p_threads *thread);
+void	philo_eat(t_data *data, p_threads *thread);
+void	pickup_fork(t_data *data, p_threads *thread);
+void	putdown_fork(t_data *data, p_threads *thread);
 
 //MAIN
 void	*routine(void *arg);
+void	print_data_state(t_data *data, p_threads *thread);
+void	print_data_action(t_data *data, p_threads *thread, char *action);

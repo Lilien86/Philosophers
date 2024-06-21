@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:45:58 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/20 12:33:26 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:11:43 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@ void	error_exit(const char *msg)
 {
 	printf(RED "Error:\n%s\n", msg);
 	exit (1);
+}
+
+void	ms_to_us_sleep(unsigned int ms)
+{
+	unsigned int	us;
+
+	us = ms * 1000;
+	usleep(us);
 }
 
 int	is_numbers(const int nb_args, const char **args)
@@ -38,18 +46,18 @@ int	is_numbers(const int nb_args, const char **args)
 	return (0);
 }
 
-int ft_atoi(const char* str)
+int	ft_atoi(const char *str)
 {
 	int	result;
 	int	sign;
 	int	i;
-	
+
 	result = 0;
 	sign = 1;
 	i = 0;
 	while (str[i] == ' ' && (str[i] >= 9 && str[i] <= 13))
 		i++;
-	if (str[i] == '-' || str[i] == '+') 
+	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
 			sign = -1;
