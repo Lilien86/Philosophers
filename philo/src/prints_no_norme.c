@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   prints_no_norme.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 10:01:50 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/21 09:56:19 by lauger           ###   ########.fr       */
+/*   Created: 2024/06/21 10:14:36 by lauger            #+#    #+#             */
+/*   Updated: 2024/06/21 11:24:19 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	*routine(void *arg)
+void	print_mutex_each_philo(t_philo *philo)
 {
-	p_threads	*thread;
+	int	i;
 
-	if (!arg)
-		return (NULL);
-	thread = (p_threads *)arg;
-	printf(WHITE "hello I'm philo-thread id:"
-		YELLOW " %d " WHITE"State: " YELLOW"%d\n", thread->id, thread->state);
-	return (NULL);
+	i = 0;
+	printf (YELLOW "\n--------------------\n\n");
+	while (i < philo->nb_threads)
+	{
+		printf(WHITE "Hey I'm chopstick --> " CYAN "%d " WHITE "left_chopstick " CYAN "%p " WHITE "right_chopstick " CYAN"%p\n",
+			philo->threads[i].id, &philo->threads[i].left_chopstick, &philo->threads[i].right_chopstick);
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:37:55 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/20 12:46:37 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/21 10:14:50 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	init_input_data(t_philo *philo, const char **av)
 {
 	if (!philo || !av)
 		return ;
+	philo->flag_death = FALSE;
 	philo->nb_threads = ft_atoi(av[1]);
 	philo->t_die = ft_atoi(av[2]);
 	philo->t_eat = ft_atoi(av[3]);
@@ -49,8 +50,26 @@ static void	create_threads(t_philo *philo)
 	while (i < philo->nb_threads)
 	{
 		philo->threads[i].id = i;
+		philo->threads[i].state = THINKING;
 		if (pthread_create(&philo->threads[i].thread, NULL, &routine, &philo->threads[i]) != 0)
 			error_exit("pthread_create failed");
+		usleep(1);
+		i++;
+	}
+}
+
+static void	create_mutex(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo->nb_threads)
+	{
+		if (pthread_mutex_init(&philo->threads[i].left_chopstick, NULL) != 0)
+			error_exit("pthread_mutex_init failed");
+		if (i == philo->nb_threads)
+			if (pthread_mutex_init(&philo->threads[i].right_chopstick, NULL) != 0)
+				error_exit("pthread_mutex_init failed");
 		i++;
 	}
 }
@@ -63,6 +82,8 @@ int	main(int ac, char **av)
 	is_valid_arguments((const int)ac, (const char **)av);
 	init_input_data(philo, (const char **)av);
 	create_threads(philo);
+	create_mutex(philo);
+	print_mutex_each_philo(philo);
 	while (philo->flag_death == FALSE)
 	{
 		usleep(1000);

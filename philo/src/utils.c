@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:45:58 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/20 12:33:26 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/21 10:12:27 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	error_exit(const char *msg)
 {
 	printf(RED "Error:\n%s\n", msg);
 	exit (1);
+}
+
+void ms_to_us_sleep(unsigned int ms)
+{
+	unsigned int us = ms * 1000;
+	usleep(us);
 }
 
 int	is_numbers(const int nb_args, const char **args)
