@@ -6,41 +6,54 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 10:58:09 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/20 11:20:41 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:09:22 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	join_threads(t_philo *philo)
+void	join_threads(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < philo->nb_threads)
+	while (i < data->nb_threads)
 	{
-		pthread_join(philo->threads[i].thread, NULL);
+		pthread_join(data->threads[i].thread, NULL);
 		i++;
 	}
 }
 
-void	destroy_threads(t_philo *philo)
+void	destroy_threads(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < philo->nb_threads)
+	while (i < data->nb_threads)
 	{
-		pthread_detach(philo->threads[i].thread);
+		pthread_detach(data->threads[i].thread);
 		i++;
 	}
 }
 
-void	free_philo(t_philo *philo)
+void	free_data(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	free(philo->threads);
-	free(philo);
+	free(data->threads);
+	free(data);
+}
+
+void	free_mutex(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_threads)
+	{
+		pthread_mutex_destroy(&data->mutex[i]);
+		i++;
+	}
+	free(data->mutex);
 }

@@ -6,22 +6,22 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 10:14:36 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/21 11:24:19 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/21 15:11:49 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	print_mutex_each_philo(t_philo *philo)
+void	print_mutex_each_philo(t_data *data)
 {
 	int	i;
 
 	i = 0;
 	printf (YELLOW "\n--------------------\n\n");
-	while (i < philo->nb_threads)
+	while (i < data->nb_threads)
 	{
 		printf(WHITE "Hey I'm chopstick --> " CYAN "%d " WHITE "left_chopstick " CYAN "%p " WHITE "right_chopstick " CYAN"%p\n",
-			philo->threads[i].id, &philo->threads[i].left_chopstick, &philo->threads[i].right_chopstick);
+			data->threads[i].id, &data->mutex[i], &data->mutex[(i + 1) % data->nb_threads]);
 		i++;
 	}
 }
