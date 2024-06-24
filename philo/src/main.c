@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:37:55 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/21 15:10:10 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/24 14:18:23 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ static void	init_input_data(t_data *data, const char **av)
 {
 	if (!data || !av)
 		return ;
-	data->flag_death = FALSE;
-	if (pthread_mutex_init(&data->mutex_print, NULL) != 0)
-		error_exit("pthread_mutex_init failed");
-	data->nb_threads = ft_atoi(av[1]);
+	data->finished_count = 0;
+	data->someone_died = 0;
+	data->start_time = get_current_time();
+	pthread_mutex_init(&data->mutex_died, NULL);
+	pthread_mutex_init(&data->mutex_print, NULL);
+	pthread_mutex_init(&data->mutex_finished, NULL);
 	data->t_die = ft_atoi(av[2]);
 	data->t_eat = ft_atoi(av[3]);
 	data->t_sleep = ft_atoi(av[4]);
@@ -41,8 +43,10 @@ static void	init_input_data(t_data *data, const char **av)
 		data->nb_lunchs = ft_atoi(av[5]);
 	else
 		data->nb_lunchs = -1;
+	data->nb_threads = ft_atoi(av[1]);
 	if (data->t_die < 60 || data->t_eat < 60 || data->t_sleep < 60)
 		error_exit("time must be greater than 60ms");
+	print_input_data(data);
 }
 
 static void	create_threads(t_data *data)
@@ -58,6 +62,8 @@ static void	create_threads(t_data *data)
 		data->threads[i].id = i;
 		data->threads[i].state = THINKING;
 		data->threads[i].data = data;
+		data->threads[i].nb_lunchs_philo = data->nb_lunchs;
+		data->threads[i].last_eat_time = get_current_time();
 		if (pthread_create(&data->threads[i].thread,
 				NULL, &routine, &data->threads[i]) != 0)
 			error_exit("pthread_create failed");
@@ -90,11 +96,7 @@ int	main(int ac, char **av)
 	create_mutex(data);
 	create_threads(data);
 	print_mutex_each_philo(data);
-	while (data->flag_death == FALSE)
-	{
-		usleep(1000);
-		break ;
-	}
+	monitor_threads(data);
 	join_threads(data);
 	free_mutex(data);
 	free_data(data);

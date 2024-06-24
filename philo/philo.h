@@ -17,10 +17,10 @@
 #include <sys/time.h>
 #include <pthread.h>
 
-struct s_data;
-struct s_threads;
+struct	s_data;
+struct	s_threads;
 
-typedef enum
+typedef	enum
 {
 	THINKING,
 	SLEEPING,
@@ -33,6 +33,8 @@ typedef struct s_threads
 	t_state				state;
 	pthread_t			thread;
 	struct s_data		*data;
+	int					nb_lunchs_philo;
+	long long			last_eat_time;
 }	p_threads;
 
 typedef struct s_data
@@ -45,10 +47,12 @@ typedef struct s_data
 	int				t_eat;
 	int				t_sleep;
 	int				nb_lunchs;
-	int				flag_death;
+	pthread_mutex_t	mutex_finished;
+	int				finished_count;
+	pthread_mutex_t	mutex_died;
+	int				someone_died;
+	long long		start_time;
 }	t_data;
-
-
 
 #define TRUE 1
 #define FALSE 0
@@ -64,28 +68,36 @@ typedef struct s_data
 #define WHITE	"\033[0;37m"
 
 //TEMPORARY PRINTS --------------- NO NORM
-void	print_mutex_each_philo(t_data *data);
+void		print_mutex_each_philo(t_data *data);
+void		print_input_data(t_data *data);
 
 //UTILS
-int		is_numbers(const int nb_args, const char **args);
-int		ft_atoi(const char* str);
-void	error_exit(const char *msg);
-void	ms_to_us_sleep(unsigned int ms);
+int			is_numbers(const int nb_args, const char **args);
+int			ft_atoi(const char* str);
+void		error_exit(const char *msg);
 
 //THREADS UTILS
-void	join_threads(t_data *data);
-void	destroy_threads(t_data *data);
-void	free_data(t_data *data);
-void	free_mutex(t_data *data);
+void		join_threads(t_data *data);
+void		destroy_threads(t_data *data);
+void		free_data(t_data *data);
+void		free_mutex(t_data *data);
+int			philo_is_die(p_threads *philo);
+
+//TIME UTILS
+long long	get_elapsed_time(long long start_time);
+void		ms_to_us_sleep(unsigned int ms);
+long long	get_current_time(void);
+
 
 //STATES_and_ACTIONS
-void	philo_think(t_data *data, p_threads *thread);
-void	philo_sleep(t_data *data, p_threads *thread);
-void	philo_eat(t_data *data, p_threads *thread);
-void	pickup_fork(t_data *data, p_threads *thread);
-void	putdown_fork(t_data *data, p_threads *thread);
+void		philo_think(t_data *data, p_threads *thread);
+void		philo_sleep(t_data *data, p_threads *thread);
+void		philo_eat(t_data *data, p_threads *thread);
+void		pickup_fork(t_data *data, p_threads *thread);
+void		putdown_fork(t_data *data, p_threads *thread);
 
 //MAIN
-void	*routine(void *arg);
-void	print_data_state(t_data *data, p_threads *thread);
-void	print_data_action(t_data *data, p_threads *thread, char *action);
+void		*routine(void *arg);
+void		print_data_state(t_data *data, p_threads *thread);
+void		print_data_action(t_data *data, p_threads *thread, char *action);
+void		monitor_threads(t_data *data);

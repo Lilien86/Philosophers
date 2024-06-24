@@ -11,7 +11,8 @@ RED = \033[0;31m
 NC = \033[0m
 
 SRC = src/main.c src/utils.c src/routine.c src/thread_utils.c \
-		src/prints_no_norme.c src/states_actions.c src/print_data.c
+		src/prints_no_norme.c src/states_actions.c src/print_data.c \
+		src/monitor_threads.c src/time_utils.c
 
 OBJ_DIR = ./obj
 OBJ = $(SRC:./src/%.c=$(OBJ_DIR)/%.o)
