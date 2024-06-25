@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 09:57:29 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/24 13:17:19 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/25 11:24:46 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,4 @@ void	putdown_fork(t_data *data, p_threads *thread)
 		return ;
 	pthread_mutex_unlock(&data->mutex[thread->id]);
 	pthread_mutex_unlock(&data->mutex[(thread->id + 1) % data->nb_threads]);
-	print_data_action(data, thread, "Putdown the fork");
 }

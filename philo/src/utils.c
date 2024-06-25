@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:45:58 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/24 13:01:24 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/25 10:06:50 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,12 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (sign * result);
+}
+
+void	clean_exit(t_data *data)
+{
+	join_threads(data);
+	free_mutex(data);
+	free_data(data);
+	exit (0);
 }

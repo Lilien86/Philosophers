@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 12:47:35 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/24 12:50:14 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/25 11:05:36 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void monitor_threads(t_data *data)
 		if (data->someone_died == 1)
 		{
 			pthread_mutex_unlock(&data->mutex_died);
-			join_threads(data);
-			free_mutex(data);
-			free_data(data);
-			exit (0);
+			clean_exit(data);
 		}
 		pthread_mutex_unlock(&data->mutex_died);
 
@@ -31,10 +28,7 @@ void monitor_threads(t_data *data)
 		if (data->finished_count == data->nb_threads)
 		{
 			pthread_mutex_unlock(&data->mutex_finished);
-			join_threads(data);
-			free_mutex(data);
-			free_data(data);
-			exit (0);
+			clean_exit(data);
 		}
 		pthread_mutex_unlock(&data->mutex_finished);
 		usleep(10);
