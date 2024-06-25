@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 10:01:50 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/24 14:18:46 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/25 12:19:39 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@ void	*routine(void *arg)
 			philo_sleep(thread->data, thread);
 			philo_think(thread->data, thread);
 		}
-		putdown_fork(thread->data, thread);
-		philo_sleep(thread->data, thread);
-		philo_think(thread->data, thread);
 	}
 	else
 	{
