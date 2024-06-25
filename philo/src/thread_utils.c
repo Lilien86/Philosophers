@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 10:58:09 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/24 14:17:45 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/25 12:47:07 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ int	philo_is_die(p_threads *philo)
 	if (current_time - philo->last_eat_time > philo->data->t_die)
 	{
 		pthread_mutex_lock(&philo->data->mutex_print);
-		printf(RED "Philosopher %d has died.\n", philo->id);
+		printf(RED "data-thread id: %d | "
+		"--State: DIE       | Die     time: %lld\n" WHITE,
+			philo->id, get_elapsed_time(philo->data->start_time));
 		pthread_mutex_unlock(&philo->data->mutex_print);
 		pthread_mutex_lock(&philo->data->mutex_died);
 		philo->data->someone_died = 1;
