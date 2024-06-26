@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 10:58:09 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/24 14:17:45 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/26 17:03:17 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,27 @@ int	philo_is_die(p_threads *philo)
 	long long	current_time;
 
 	current_time = get_current_time();
+	pthread_mutex_lock(&philo->data->mutex_died);
 	if (philo->data->someone_died)
-		return (TRUE);
-	if (current_time - philo->last_eat_time > philo->data->t_die)
 	{
+		pthread_mutex_unlock(&philo->data->mutex_died);
+		return (TRUE);
+	}
+	if (current_time - philo->last_eat_time > philo->data->t_die
+		|| philo->data->nb_threads == 1)
+	{
+		printf("current_time - philo->last_eat_time: %lld\n",
+			current_time - philo->last_eat_time);
 		pthread_mutex_lock(&philo->data->mutex_print);
-		printf(RED "Philosopher %d has died.\n", philo->id);
+		ft_usleep(philo->data->t_die * 1000);
+		printf(RED "data-thread id: %d | "
+			"--State: DIE       | Die     time: %lld\n" WHITE,
+			philo->id, get_elapsed_time(philo->data->start_time));
 		pthread_mutex_unlock(&philo->data->mutex_print);
-		pthread_mutex_lock(&philo->data->mutex_died);
 		philo->data->someone_died = 1;
 		pthread_mutex_unlock(&philo->data->mutex_died);
-		return (1);
+		return (TRUE);
 	}
+	pthread_mutex_unlock(&philo->data->mutex_died);
 	return (FALSE);
 }
