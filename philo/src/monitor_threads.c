@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 12:47:35 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/25 11:05:36 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:57:42 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void monitor_threads(t_data *data)
 	while (1)
 	{
 		pthread_mutex_lock(&data->mutex_died);
-		if (data->someone_died == 1)
+		if (data->someone_died == 1 || data->nb_threads == 1)
 		{
+			printf(MAGENTA "exit\n\n");
 			pthread_mutex_unlock(&data->mutex_died);
 			clean_exit(data);
 		}

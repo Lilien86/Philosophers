@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:37:55 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/25 12:47:51 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:50:41 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ static void	init_input_data(t_data *data, const char **av)
 	data->nb_threads = ft_atoi(av[1]);
 	if (data->t_die < 60 || data->t_eat < 60 || data->t_sleep < 60)
 		error_exit("time must be greater than 60ms");
+	if (data->t_die >= 2147483647 || data->t_eat >= 2147483647 ||
+		data->t_sleep >= 2147483647)
+		error_exit("time must be less than 2147483647ms");
 }
 
 static void create_threads(t_data *data)

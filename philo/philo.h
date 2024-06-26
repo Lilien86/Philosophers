@@ -88,6 +88,8 @@ int			philo_is_die(p_threads *philo);
 long long	get_elapsed_time(long long start_time);
 void		ms_to_us_sleep(unsigned int ms);
 long long	get_current_time(void);
+void		ft_usleep(long long time);
+long long	ft_time(void);
 
 
 //STATES_and_ACTIONS

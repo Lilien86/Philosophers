@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:45:58 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/25 10:06:50 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:58:38 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ int	ft_atoi(const char *str)
 
 void	clean_exit(t_data *data)
 {
+	printf("0\n");
 	join_threads(data);
+	printf("1\n");
 	free_mutex(data);
 	free_data(data);
 	exit (0);
