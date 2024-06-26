@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 09:57:29 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/26 15:28:04 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/26 16:49:55 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	philo_think(t_data *data, p_threads *thread)
 	pthread_mutex_lock(&data->mutex_died);
 	if (!data->someone_died)
 		print_data_state(data, thread);
-		//ms_to_us_sleep(100);
 	pthread_mutex_unlock(&data->mutex_died);
 }
 

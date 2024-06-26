@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 14:00:31 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/26 14:27:01 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/26 17:05:08 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	print_data_state(t_data *data, p_threads *thread)
 {
+	long long	elapsed_time;
+
 	if (!data || !thread)
 		return ;
 	pthread_mutex_lock(&data->mutex_print);
-	long long	elapsed_time;
-	
 	elapsed_time = get_elapsed_time(data->start_time);
 	printf(WHITE "data-thread id:" YELLOW " %d" GREEN" | ", thread->id);
 	printf(WHITE"--State: ");
@@ -42,10 +42,10 @@ void	print_data_state(t_data *data, p_threads *thread)
 
 void	print_data_action(t_data *data, p_threads *thread, char *action)
 {
+	long long	elapsed_time;
+
 	if (!data || !thread || !action)
 		return ;
-	long long	elapsed_time;
-	
 	elapsed_time = get_elapsed_time(data->start_time);
 	pthread_mutex_lock(&data->mutex_print);
 	printf(WHITE "data-thread id:" YELLOW " %d" GREEN" | ", thread->id);
