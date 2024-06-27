@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 09:57:29 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/27 11:19:05 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/27 12:29:09 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,57 +54,22 @@ void	philo_think(t_data *data, p_threads *thread)
 	pthread_mutex_unlock(&data->mutex_died);
 }
 
-// void	pickup_fork(t_data *data, p_threads *thread)
-// {
-// 	if (!data || !thread)
-// 		return ;
-// 	if (data->nb_threads == 1)
-// 	{
-// 		if (!data->someone_died)
-// 			print_data_action(data, thread, "Pickup the fork ");
-// 		return ;
-// 	}
-// 	pthread_mutex_lock(&data->mutex[thread->id]);
-// 	pthread_mutex_lock(&data->mutex[(thread->id + 1) % data->nb_threads]);
-// 	pthread_mutex_lock(&data->mutex_died);
-// 	if (data->someone_died == 0)
-// 		print_data_action(data, thread, "Pickup the fork ");
-// 	pthread_mutex_unlock(&data->mutex_died);
-// }
-
-void pickup_fork(t_data *data, p_threads *thread)
+void	pickup_fork(t_data *data, p_threads *thread)
 {
-	int	first_lock;
-	int	second_lock;
-
-	first_lock = 0;
-	second_lock = 0;
 	if (!data || !thread)
-		return;
+		return ;
 	if (data->nb_threads == 1)
 	{
 		if (!data->someone_died)
 			print_data_action(data, thread, "Pickup the fork ");
-		return;
+		return ;
 	}
-	if (thread->id < (thread->id + 1) % data->nb_threads)
-	{
-		first_lock = thread->id;
-		second_lock = (thread->id + 1) % data->nb_threads;
-	}
-	else
-	{
-		first_lock = (thread->id + 1) % data->nb_threads;
-		second_lock = thread->id;
-	}
-	pthread_mutex_lock(&data->mutex[first_lock]);
-	pthread_mutex_lock(&data->mutex[second_lock]);
+	choice_first_and_second_lock(thread, data);
 	pthread_mutex_lock(&data->mutex_died);
 	if (data->someone_died == 0)
 		print_data_action(data, thread, "Pickup the fork ");
 	pthread_mutex_unlock(&data->mutex_died);
 }
-
 
 void	putdown_fork(t_data *data, p_threads *thread)
 {

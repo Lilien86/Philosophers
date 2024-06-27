@@ -2,7 +2,7 @@ NAME = ./philo
 
 CC = /bin/cc
 
-CFLAGS = -Wextra -Werror -Wall -g #-fsanitize=thread
+CFLAGS = -Wextra -Werror -Wall -g
 
 
 GREEN = \033[0;32m
@@ -11,7 +11,7 @@ RED = \033[0;31m
 NC = \033[0m
 
 SRC = src/main.c src/utils.c src/routine.c src/thread_utils.c \
-		src/prints_no_norme.c src/states_actions.c src/print_data.c \
+		src/states_actions.c src/print_data.c \
 		src/monitor_threads.c src/time_utils.c
 
 OBJ_DIR = ./obj

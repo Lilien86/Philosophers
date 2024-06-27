@@ -67,9 +67,7 @@ typedef struct s_data
 #define CYAN	"\033[0;36m"
 #define WHITE	"\033[0;37m"
 
-//TEMPORARY PRINTS --------------- NO NORM
-void		print_mutex_each_philo(t_data *data);
-void		print_input_data(t_data *data);
+
 
 //UTILS
 int			is_numbers(const int nb_args, const char **args);
@@ -79,7 +77,6 @@ void		clean_exit(t_data *data);
 
 //THREADS UTILS
 void		join_threads(t_data *data);
-void		destroy_threads(t_data *data);
 void		free_data(t_data *data);
 void		free_mutex(t_data *data);
 int			philo_is_die(p_threads *philo);
@@ -98,6 +95,7 @@ void		philo_think(t_data *data, p_threads *thread);
 void		philo_sleep(t_data *data, p_threads *thread);
 void		philo_eat(t_data *data, p_threads *thread);
 void		pickup_fork(t_data *data, p_threads *thread);
+void		choice_first_and_second_lock(p_threads *thread, t_data *data);
 void		putdown_fork(t_data *data, p_threads *thread);
 
 //MAIN

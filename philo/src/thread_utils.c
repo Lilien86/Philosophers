@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 10:58:09 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/27 11:22:15 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/27 11:58:54 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,6 @@ void	join_threads(t_data *data)
 	while (i < data->nb_threads)
 	{
 		pthread_join(data->threads[i].thread, NULL);
-		i++;
-	}
-}
-
-void	destroy_threads(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_threads)
-	{
-		pthread_detach(data->threads[i].thread);
 		i++;
 	}
 }
@@ -85,17 +73,15 @@ int	philo_is_die(p_threads *philo)
 	return (FALSE);
 }
 
-int philo_is_die_for_main(p_threads *philo)
+int	philo_is_die_for_main(p_threads *philo)
 {
-	long long current_time;
+	long long	current_time;
 
 	current_time = get_current_time();
-
 	if (philo->data->someone_died)
-	{
 		return (TRUE);
-	}
-	if (current_time - philo->last_eat_time > philo->data->t_die || philo->data->nb_threads == 1)
+	if (current_time - philo->last_eat_time > philo->data->t_die
+		|| philo->data->nb_threads == 1)
 	{
 		pthread_mutex_lock(&philo->data->mutex_print);
 		if (philo->data->nb_threads == 1)
@@ -106,7 +92,5 @@ int philo_is_die_for_main(p_threads *philo)
 		philo->data->someone_died = 1;
 		return (TRUE);
 	}
-
 	return (FALSE);
 }
-

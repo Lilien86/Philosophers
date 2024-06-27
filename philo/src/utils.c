@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:45:58 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/27 11:44:55 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/27 12:29:13 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,25 @@ void	clean_exit(t_data *data)
 	free_mutex(data);
 	free_data(data);
 	exit (0);
+}
+
+void	choice_first_and_second_lock(p_threads *thread, t_data *data)
+{
+	int	first_lock;
+	int	second_lock;
+
+	first_lock = 0;
+	second_lock = 0;
+	if (thread->id < (thread->id + 1) % data->nb_threads)
+	{
+		first_lock = thread->id;
+		second_lock = (thread->id + 1) % data->nb_threads;
+	}
+	else
+	{
+		first_lock = (thread->id + 1) % data->nb_threads;
+		second_lock = thread->id;
+	}
+	pthread_mutex_lock(&data->mutex[first_lock]);
+	pthread_mutex_lock(&data->mutex[second_lock]);
 }
