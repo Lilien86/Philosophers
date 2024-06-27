@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:37:55 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/27 10:48:31 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/27 10:57:36 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,9 @@ static void	create_threads(t_data *data)
 {
 	int	i;
 
-	
-	
+	data->threads = malloc(sizeof(p_threads) * data->nb_threads);
+	if (!data->threads)
+		error_exit("malloc failed");
 	data->start_time = get_current_time();
 	i = 0;
 	while (i < data->nb_threads)
