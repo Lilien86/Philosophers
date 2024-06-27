@@ -83,6 +83,7 @@ void		destroy_threads(t_data *data);
 void		free_data(t_data *data);
 void		free_mutex(t_data *data);
 int			philo_is_die(p_threads *philo);
+int			philo_is_die_for_main(p_threads *philo);
 
 //TIME UTILS
 long long	get_elapsed_time(long long start_time);

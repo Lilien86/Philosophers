@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:37:55 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/26 17:04:31 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/27 10:48:31 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ static void	init_input_data(t_data *data, const char **av)
 	data->nb_threads = ft_atoi(av[1]);
 	if (data->t_die < 60 || data->t_eat < 60 || data->t_sleep < 60)
 		error_exit("time must be greater than 60ms");
-	if (data->t_die >= 2147483647 || data->t_eat >= 2147483647
-		|| data->t_sleep >= 2147483647)
+	if (data->t_die > 2147483647 || data->t_eat > 2147483647
+		|| data->t_sleep > 2147483647)
 		error_exit("time must be less than 2147483647ms");
 }
 
@@ -55,9 +55,8 @@ static void	create_threads(t_data *data)
 {
 	int	i;
 
-	data->threads = malloc(sizeof(p_threads) * data->nb_threads);
-	if (!data->threads)
-		error_exit("malloc failed");
+	
+	
 	data->start_time = get_current_time();
 	i = 0;
 	while (i < data->nb_threads)
@@ -94,6 +93,8 @@ int	main(int ac, char **av)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
+	if (!data)
+		error_exit("malloc failed");
 	is_valid_arguments((const int)ac, (const char **)av);
 	init_input_data(data, (const char **)av);
 	create_mutex(data);

@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 10:58:09 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/26 17:03:17 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/27 10:05:30 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,10 @@ int	philo_is_die(p_threads *philo)
 	if (current_time - philo->last_eat_time > philo->data->t_die
 		|| philo->data->nb_threads == 1)
 	{
-		printf("current_time - philo->last_eat_time: %lld\n",
-			current_time - philo->last_eat_time);
 		pthread_mutex_lock(&philo->data->mutex_print);
 		ft_usleep(philo->data->t_die * 1000);
 		printf(RED "data-thread id: %d | "
-			"--State: DIE       | Die     time: %lld\n" WHITE,
+			"--State: DIE       | Die      time: %lld\n" WHITE,
 			philo->id, get_elapsed_time(philo->data->start_time));
 		pthread_mutex_unlock(&philo->data->mutex_print);
 		philo->data->someone_died = 1;
@@ -87,3 +85,30 @@ int	philo_is_die(p_threads *philo)
 	pthread_mutex_unlock(&philo->data->mutex_died);
 	return (FALSE);
 }
+
+int philo_is_die_for_main(p_threads *philo)
+{
+	long long current_time;
+
+	current_time = get_current_time();
+
+	if (philo->data->someone_died)
+	{
+		return (TRUE);
+	}
+	if (current_time - philo->last_eat_time > philo->data->t_die || philo->data->nb_threads == 1)
+	{
+		pthread_mutex_lock(&philo->data->mutex_print);
+		if (philo->data->nb_threads == 1)
+			ft_usleep(philo->data->t_die * 1000);
+		printf(RED "data-thread id: %d | "
+			"--State: DIE       | Die      time: %lld\n" WHITE,
+			philo->id, get_elapsed_time(philo->data->start_time));
+		pthread_mutex_unlock(&philo->data->mutex_print);
+		philo->data->someone_died = 1;
+		return (TRUE);
+	}
+
+	return (FALSE);
+}
+
