@@ -74,7 +74,7 @@ void		print_input_data(t_data *data);
 //UTILS
 int			is_numbers(const int nb_args, const char **args);
 int			ft_atoi(const char* str);
-void		error_exit(const char *msg);
+void		error_exit(const char *msg, t_data *data);	
 void		clean_exit(t_data *data);
 
 //THREADS UTILS

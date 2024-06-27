@@ -6,15 +6,23 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:45:58 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/26 16:57:01 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/27 11:44:55 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	error_exit(const char *msg)
+void	error_exit(const char *msg, t_data *data)
 {
-	printf(RED "Error:\n%s\n", msg);
+	if (data)
+	{
+		if (data->threads)
+			join_threads(data);
+		if (data->mutex)
+			free_mutex(data);
+		free_data(data);
+	}
+	printf(RED "Error:\n%s\n" WHITE, msg);
 	exit (1);
 }
 
