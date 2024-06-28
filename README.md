@@ -15,7 +15,7 @@ The Philosopher Project simulates the classic "Dining Philosophers Problem." In 
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/philosopher.git
+    git clone https://github.com/Lilien86/Philosophers/tree/main
     cd philosopher
     ```
 
