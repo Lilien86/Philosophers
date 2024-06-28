@@ -6,13 +6,13 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 10:01:50 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/27 14:35:32 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/28 08:21:38 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	take_actions(p_threads *thread)
+void	take_actions(t_threads *thread)
 {
 	pickup_fork(thread->data, thread);
 	philo_eat(thread->data, thread);
@@ -21,7 +21,7 @@ void	take_actions(p_threads *thread)
 	philo_think(thread->data, thread);
 }
 
-static void	handle_single_thread(p_threads *thread)
+static void	handle_single_thread(t_threads *thread)
 {
 	pickup_fork(thread->data, thread);
 	philo_think(thread->data, thread);
@@ -29,7 +29,7 @@ static void	handle_single_thread(p_threads *thread)
 		return ;
 }
 
-static void	handle_multiple_threads(p_threads *thread)
+static void	handle_multiple_threads(t_threads *thread)
 {
 	if (thread->data->nb_lunchs == -1)
 	{
@@ -55,7 +55,7 @@ static void	handle_multiple_threads(p_threads *thread)
 	}
 }
 
-static void	handle_thread_actions(p_threads *thread)
+static void	handle_thread_actions(t_threads *thread)
 {
 	if (thread->data->nb_threads == 1)
 	{
@@ -69,11 +69,11 @@ static void	handle_thread_actions(p_threads *thread)
 
 void	*routine(void *arg)
 {
-	p_threads	*thread;
+	t_threads	*thread;
 
 	if (!arg)
 		return (NULL);
-	thread = (p_threads *)arg;
+	thread = (t_threads *)arg;
 	handle_thread_actions(thread);
 	return (NULL);
 }

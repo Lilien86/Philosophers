@@ -20,12 +20,12 @@
 struct	s_data;
 struct	s_threads;
 
-typedef	enum
+typedef enum s_state
 {
 	THINKING,
 	SLEEPING,
 	EATING
-} t_state;
+}	t_state;
 
 typedef struct s_threads
 {
@@ -35,11 +35,11 @@ typedef struct s_threads
 	struct s_data		*data;
 	int					nb_lunchs_philo;
 	long long			last_eat_time;
-}	p_threads;
+}	t_threads;
 
 typedef struct s_data
 {
-	p_threads		*threads;
+	t_threads		*threads;
 	pthread_mutex_t	*mutex;
 	pthread_mutex_t	mutex_print;
 	int				nb_threads;
@@ -67,11 +67,9 @@ typedef struct s_data
 #define CYAN	"\033[0;36m"
 #define WHITE	"\033[0;37m"
 
-
-
 //UTILS
 int			is_numbers(const int nb_args, const char **args);
-int			ft_atoi(const char* str);
+int			ft_atoi(const char *str);
 void		error_exit(const char *msg, t_data *data);	
 void		clean_exit(t_data *data);
 
@@ -79,8 +77,8 @@ void		clean_exit(t_data *data);
 void		join_threads(t_data *data);
 void		free_data(t_data *data);
 void		free_mutex(t_data *data);
-int			philo_is_die(p_threads *philo);
-int			philo_is_die_for_main(p_threads *philo);
+int			philo_is_die(t_threads *philo);
+int			philo_is_die_for_main(t_threads *philo);
 
 //TIME UTILS
 long long	get_elapsed_time(long long start_time);
@@ -89,17 +87,16 @@ long long	get_current_time(void);
 void		ft_usleep(long long time);
 long long	ft_time(void);
 
-
 //STATES_and_ACTIONS
-void		philo_think(t_data *data, p_threads *thread);
-void		philo_sleep(t_data *data, p_threads *thread);
-void		philo_eat(t_data *data, p_threads *thread);
-void		pickup_fork(t_data *data, p_threads *thread);
-void		choice_first_and_second_lock(p_threads *thread, t_data *data);
-void		putdown_fork(t_data *data, p_threads *thread);
+void		philo_think(t_data *data, t_threads *thread);
+void		philo_sleep(t_data *data, t_threads *thread);
+void		philo_eat(t_data *data, t_threads *thread);
+void		pickup_fork(t_data *data, t_threads *thread);
+void		choice_first_and_second_lock(t_threads *thread, t_data *data);
+void		putdown_fork(t_data *data, t_threads *thread);
 
 //MAIN
 void		*routine(void *arg);
-void		print_data_state(t_data *data, p_threads *thread);
-void		print_data_action(t_data *data, p_threads *thread, char *action);
+void		print_data_state(t_data *data, t_threads *thread);
+void		print_data_action(t_data *data, t_threads *thread, char *action);
 void		monitor_threads(t_data *data);

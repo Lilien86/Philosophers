@@ -6,13 +6,13 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 09:57:29 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/27 12:29:09 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/28 08:21:38 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	philo_eat(t_data *data, p_threads *thread)
+void	philo_eat(t_data *data, t_threads *thread)
 {
 	if (!data || !thread)
 		return ;
@@ -25,7 +25,7 @@ void	philo_eat(t_data *data, p_threads *thread)
 	pthread_mutex_unlock(&data->mutex_died);
 }
 
-void	philo_sleep(t_data *data, p_threads *thread)
+void	philo_sleep(t_data *data, t_threads *thread)
 {
 	if (!data || !thread)
 		return ;
@@ -37,7 +37,7 @@ void	philo_sleep(t_data *data, p_threads *thread)
 	pthread_mutex_unlock(&data->mutex_died);
 }
 
-void	philo_think(t_data *data, p_threads *thread)
+void	philo_think(t_data *data, t_threads *thread)
 {
 	if (!data || !thread)
 		return ;
@@ -54,7 +54,7 @@ void	philo_think(t_data *data, p_threads *thread)
 	pthread_mutex_unlock(&data->mutex_died);
 }
 
-void	pickup_fork(t_data *data, p_threads *thread)
+void	pickup_fork(t_data *data, t_threads *thread)
 {
 	if (!data || !thread)
 		return ;
@@ -71,7 +71,7 @@ void	pickup_fork(t_data *data, p_threads *thread)
 	pthread_mutex_unlock(&data->mutex_died);
 }
 
-void	putdown_fork(t_data *data, p_threads *thread)
+void	putdown_fork(t_data *data, t_threads *thread)
 {
 	if (!data || !thread)
 		return ;

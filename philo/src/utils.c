@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 20:45:58 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/27 12:29:13 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/28 08:21:38 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	clean_exit(t_data *data)
 	exit (0);
 }
 
-void	choice_first_and_second_lock(p_threads *thread, t_data *data)
+void	choice_first_and_second_lock(t_threads *thread, t_data *data)
 {
 	int	first_lock;
 	int	second_lock;

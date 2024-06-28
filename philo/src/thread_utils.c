@@ -6,7 +6,7 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 10:58:09 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/27 14:36:41 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/28 08:21:38 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	free_mutex(t_data *data)
 	free(data->mutex);
 }
 
-int	philo_is_die(p_threads *philo)
+int	philo_is_die(t_threads *philo)
 {
 	long long	current_time;
 

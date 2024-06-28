@@ -6,13 +6,13 @@
 /*   By: lauger <lauger@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 14:00:31 by lauger            #+#    #+#             */
-/*   Updated: 2024/06/27 13:36:41 by lauger           ###   ########.fr       */
+/*   Updated: 2024/06/28 08:21:38 by lauger           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	print_data_state(t_data *data, p_threads *thread)
+void	print_data_state(t_data *data, t_threads *thread)
 {
 	long long	elapsed_time;
 
@@ -36,7 +36,7 @@ void	print_data_state(t_data *data, p_threads *thread)
 	pthread_mutex_unlock(&data->mutex_print);
 }
 
-void	print_data_action(t_data *data, p_threads *thread, char *action)
+void	print_data_action(t_data *data, t_threads *thread, char *action)
 {
 	long long	elapsed_time;
 
